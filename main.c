@@ -57,14 +57,20 @@ void main(void)
         //-------------TEMPERATURE-----------
         *ptr_temp_raw = read_ADC(ADC_TEMP);
         *ptr_temperature = conv_temp(*ptr_temp_raw);
+
+        //send to output
         _DINT();
         spi_send(DAC_OUT_TEMP, *ptr_temperature);
         _EINT();
+
+
         //-------------MOISTURE--------------
         *ptr_meas_mois = meas_moisture();
         test_mois_volt = *ptr_meas_mois * ((*ptr_vref_h - *ptr_vref_l)/1024) + *ptr_vref_l;
         *ptr_moisture = conv_mois(*ptr_meas_mois);
         *ptr_moisture = conv_mois_dac(*ptr_moisture);
+
+        //send to output
         _DINT();
         spi_send(DAC_OUT_MOIS, *ptr_moisture);
         _EINT();
@@ -83,33 +89,33 @@ __interrupt void Port_2(void)
         unsigned int  *ptr_adc_value;
         ptr_adc_value = &adc_value;
         
-        _DINT();                              // disable interrupt
+        _DINT();                                   // disable interrupt
                      
         *ptr_adc_value = read_ADC(ADC_VCC);        // measure supply voltage
         
-        *ptr_vref_vcc = conv_vcc(*ptr_adc_value); // convert to absolute voltage and save
+        *ptr_vref_vcc = conv_vcc(*ptr_adc_value);  // convert to absolute voltage and save
         
-        *ptr_spi_data = 0;                        // set VREF- to GND
+        *ptr_spi_data = 0;                         // set VREF- to GND
         spi_send(DAC_VREF_L, *ptr_spi_data);
-        *ptr_spi_data = 255;                      // set Vref+ to Vcc
+        *ptr_spi_data = 255;                       // set Vref+ to Vcc
         spi_send(DAC_VREF_H, *ptr_spi_data);
         
+        // meas moisture with maximum delta_Volt DRY
         blink_led_poll_sw(LED_YE);
         *ptr_meas_mois = meas_moisture();
-        *ptr_vref_h = (*ptr_meas_mois) * (*ptr_vref_vcc / 1024);// save high reference (absolute)
+        *ptr_vref_h = (*ptr_meas_mois) * (*ptr_vref_vcc / 1024.0);// save high reference (absolute)
         
         confirm_led(LED_YE);
         
+        // meas moisture with maximum delta_Volt MOIST
         blink_led_poll_sw(LED_GR);
         *ptr_meas_mois = meas_moisture();
-        *ptr_vref_l = (*ptr_meas_mois) * (*ptr_vref_vcc / 1024);// save high reference (absolute)
+        *ptr_vref_l = (*ptr_meas_mois) * (*ptr_vref_vcc / 1024.0);// save high reference (absolute)
         
         erase_flash(FLASH_VREF_L);
         
-        write_flash_float(FLASH_VREF_L, *ptr_vref_l);      // write config values to info flash
-        write_flash_float(FLASH_VREF_H, *ptr_vref_h);      // write config values to info flash
-        write_flash_float(FLASH_VCC, *ptr_vref_vcc);      // write config values to info flash
-        
+        write_flash_float(*ptr_vref_l, *ptr_vref_h, *ptr_vref_vcc); // write config values to info flash
+
         confirm_led(LED_GR);                
         
         // set references for ADC10

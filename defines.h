@@ -42,6 +42,8 @@
 #define ADC_VCC  0x2           // supply voltage measurement settings
                                                                      /* E_DEVSET */
 
+#define Baudrate 0x80          //0x680 for 9600; 0x80 for 115200
+#define TxD BIT0
 //temperature
 // #define CAL_ADC_15T30 *(unsigned int *) (0x10E2)
 // #define CAL_ADC_15T85 *(unsigned int *) (0x10E4)

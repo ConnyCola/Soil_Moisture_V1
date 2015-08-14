@@ -68,16 +68,16 @@ void init_switch()
     P2DIR &= ~CAL_SW;                     // P1.0 = input
     P2REN |= CAL_SW;                      // Pullup/down resistor enabled
     P2OUT |= CAL_SW;                      // Pin is pulled enabled
-    P2IES |= CAL_SW;                     // rising edge
-    P2IE |= CAL_SW;                       //interrupt enable
+    P2IES |= CAL_SW;                      // rising edge
+    P2IE |= CAL_SW;                       // interrupt enable
     P2IFG &= ~CAL_SW;                     // clear interrupt flag
   }
 
 //LED INITIALIZATION
 void init_led(void)
   {
-    P2DIR |= LED_GR + LED_YE;            // conifg LED output pins
-    P2OUT &= ~LED_GR + ~LED_YE;          // turn off LEDs
+    P2DIR |= LED_GR + LED_YE;             // conifg LED output pins
+    P2OUT &= ~LED_GR + ~LED_YE;           // turn off LEDs
   }
 
 //SPI INITIALIZATION
@@ -109,11 +109,11 @@ void load_cal(void)
     ptr_spi_volt_data = &spi_volt_data;
         
     vref_l = read_flash_float(FLASH_VREF_L);         // load calibration
-    *ptr_spi_volt_data = conv_dac(vref_l);     // assign Vref-
+    *ptr_spi_volt_data = conv_dac(vref_l);           // assign Vref-
     spi_send(DAC_VREF_L, *ptr_spi_volt_data);
     
     vref_h = read_flash_float(FLASH_VREF_H);         // load calibration
-    *ptr_spi_volt_data = conv_dac(vref_h);          // assign Vref-
+    *ptr_spi_volt_data = conv_dac(vref_h);           // assign Vref-
     spi_send(DAC_VREF_H, *ptr_spi_volt_data);
     
     vref_vcc = read_flash_float(FLASH_VCC);          // load calibration

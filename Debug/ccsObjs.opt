@@ -1,0 +1,1 @@
+"./user_interf.obj" "./spi.obj" "./soft_uart.obj" "./pulse.obj" "./measure.obj" "./main.obj" "./init.obj" "./global.obj" "./flash.obj" "./data_proc.obj" "./adc.obj" "../lnk_msp430g2452.cmd" -l"libc.a" 

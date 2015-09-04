@@ -119,19 +119,19 @@ endif
 # Add inputs and outputs from these tool invocations to the build variables 
 
 # All Target
-all: HumiditySensor.out
+all: Soil_Moisture_V1.out
 
 # Tool invocations
-HumiditySensor.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
+Soil_Moisture_V1.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: MSP430 Linker'
-	"C:/ti/ccsv5/tools/compiler/msp430_4.2.1/bin/cl430" -vmsp --abi=eabi --advice:power=all -g --define=__MSP430G2452__ --diag_warning=225 --display_error_number --diag_wrap=off --printf_support=minimal -z -m"HumiditySensor.map" --heap_size=80 --stack_size=80 -i"C:/ti/ccsv5/ccs_base/msp430/include" -i"C:/ti/ccsv5/tools/compiler/msp430_4.2.1/lib" -i"C:/ti/ccsv5/tools/compiler/msp430_4.2.1/include" --reread_libs --warn_sections --display_error_number --diag_wrap=off --xml_link_info="HumiditySensor_linkInfo.xml" --rom_model -o "HumiditySensor.out" $(ORDERED_OBJS)
+	"C:/ti/ccsv5/tools/compiler/msp430_4.2.1/bin/cl430" -vmsp --abi=eabi --advice:power=all -g --define=__MSP430G2452__ --diag_warning=225 --display_error_number --diag_wrap=off --printf_support=minimal -z -m"Soil_Moisture_V1.map" --heap_size=80 --stack_size=80 -i"C:/ti/ccsv5/ccs_base/msp430/include" -i"C:/ti/ccsv5/tools/compiler/msp430_4.2.1/lib" -i"C:/ti/ccsv5/tools/compiler/msp430_4.2.1/include" --reread_libs --warn_sections --display_error_number --diag_wrap=off --xml_link_info="Soil_Moisture_V1_linkInfo.xml" --rom_model -o "Soil_Moisture_V1.out" $(ORDERED_OBJS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) $(MSP430_EXECUTABLE_OUTPUTS__QUOTED) "HumiditySensor.out"
+	-$(RM) $(MSP430_EXECUTABLE_OUTPUTS__QUOTED) "Soil_Moisture_V1.out"
 	-$(RM) "adc.pp" "data_proc.pp" "flash.pp" "global.pp" "init.pp" "main.pp" "measure.pp" "pulse.pp" "soft_uart.pp" "spi.pp" "user_interf.pp" 
 	-$(RM) "adc.obj" "data_proc.obj" "flash.obj" "global.obj" "init.obj" "main.obj" "measure.obj" "pulse.obj" "soft_uart.obj" "spi.obj" "user_interf.obj" 
 	-@echo 'Finished clean'
